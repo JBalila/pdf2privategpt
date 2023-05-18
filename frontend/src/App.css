@@ -1,0 +1,151 @@
+html, body {
+  height: 100%;
+  font-family: 'Oswald', sans-serif;
+
+  background-color: antiquewhite;
+}
+
+.App {
+  text-align: center;
+}
+
+/* General stylings */
+.flex-container-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+
+  height: 100%;
+  width: 100%;
+}
+
+.button {
+  width: fit-content;
+  align-self: center;
+  margin: 1rem;
+  cursor: pointer;
+  scale: 1.2;
+
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: none;
+  background: #6E6D70;
+  box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.1), inset 0px 0.5px 0.5px rgba(255, 255, 255, 0.5), 0px 0px 0px 0.5px rgba(0, 0, 0, 0.12);
+  color: #DFDEDF;
+}
+
+.button:focus {
+  box-shadow: inset 0px 0.8px 0px -0.25px rgba(255, 255, 255, 0.2), 0px 0.5px 1px rgba(0, 0, 0, 0.1), 0px 0px 0px 3.5px rgba(58, 108, 217, 0.5);
+  outline: 0;
+}
+
+/* Navbar */
+#navbar-wrapper {
+  top: 0;
+  height: 8vh;
+  background-color: #dddddd;
+}
+
+.nav-element {
+  height: 100%;
+  width: 8vw;
+  text-decoration: none;
+  color: inherit;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#active {
+  background-color: #cccccc;
+}
+
+.nav-element:hover {
+  background-color: #aaaaaa !important;
+}
+
+/* FileUpload */
+#file-upload-form {
+  width: 50%;
+  height: 40vh;
+  margin: auto;
+  text-align: center;
+  position: relative;
+}
+
+#file-upload-input {
+  display: none;
+}
+
+#file-upload-label {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-width: 2px;
+  border-radius: 1rem;
+  border-style: dashed;
+  border-color: #cbd5e1;
+  background-color: #dfe0e1;
+}
+
+#file-upload-label.drag-active {
+  background-color: #dddddd;
+}
+
+#drag-file-element {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+}
+
+#upload-button {
+  cursor: pointer;
+  padding: 0.25rem;
+  font-size: 1rem;
+  border: none;
+  background-color: transparent;
+}
+
+#upload-button:hover {
+  text-decoration-line: underline;
+}
+
+/* AskGPT */
+#query-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+
+  height: 100%;
+  width: 70%;
+}
+
+#query-output {
+  height: 30vh;
+  margin-bottom: 1.5vh;
+  border: solid;
+  border-width: 2px;
+  background-color: #dddddd;
+
+  padding-left: 1rem;
+  padding-right: 1rem;
+  text-align: left;
+  overflow-y: scroll;
+}
+
+#query-input {
+  height: 1.5rem;
+  border: solid;
+  border-width: 2px;
+  background-color: #dddddd;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
