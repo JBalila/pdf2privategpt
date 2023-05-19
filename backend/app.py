@@ -48,10 +48,8 @@ def formatIntoReturnString(messages: [str]) -> str:
 def processFiles() -> str:
     uploadFileRes = uploadFiles()
     pdf2txtRes = pdf2txt()
-    return ''
-
-    # txt2gptRes = txt2gpt()
-    # return 'Done processing files'
+    txt2gptRes = txt2gpt()
+    return 'Done processing files'
 
 # Uploads PDF/Image files to PDF_Folder
 @app.route('/upload', methods=['POST'])
