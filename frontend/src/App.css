@@ -119,6 +119,34 @@ html, body {
   left: 0px;
 }
 
+#file-instance-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+.file-instance {
+  height: 1.2rem;
+  width: 90%;
+  padding: 0.4rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  margin-top: 0.4rem;
+  margin-bottom: 0.4rem;
+
+  border: solid;
+  border-width: 1px;
+  border-color: black;
+  border-radius: 0.5rem;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  overflow: hidden;
+  background-color: #d6d6d6;
+}
+
 #upload-button {
   cursor: pointer;
   padding: 0.25rem;
@@ -129,6 +157,11 @@ html, body {
 
 #upload-button:hover {
   text-decoration-line: underline;
+}
+
+#file-status-message {
+  margin-top: 1rem;
+  font-size: 13pt;
 }
 
 /* AskGPT */
