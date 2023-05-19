@@ -6,14 +6,19 @@ import axios from 'axios';
 import Navbar from '../components/Navbar';
 
 export default function AskGPT() {
-    const [query, setQuery] = useState('');
-    const [queryResponse, setQueryResponse] = useState('');
+    const [query, setQuery] = useState<string>('');
+    const [queryResponse, setQueryResponse] = useState<string>('');
 
-    const askQuery = async () => {
-        setQuery('');
-        setQueryResponse('');
+    // Send <query> to <privateGPT.py> on the Flask server
+    const askQuery = async (): Promise<void> => {
+        // Store <query> as JSON payload
         const jsonPayload = JSON.stringify(query);
 
+        // Reset <query> and <queryResponse>
+        setQuery('');
+        setQueryResponse('');
+
+        // Hit Flask backend
         try {
             const response = await axios.post('http://localhost:5000/askgpt', 
                 jsonPayload, {

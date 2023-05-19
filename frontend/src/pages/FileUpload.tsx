@@ -1,5 +1,5 @@
 // Library imports
-import { useState, useRef } from 'react';
+import { useState, useRef, DragEvent, ChangeEvent } from 'react';
 import axios from 'axios';
 
 // Component imports
@@ -12,15 +12,15 @@ enum FileStatusTypes {
 
 export default function FileUpload() {
     // Store file information uploaded by User
-    const [files, setFiles] = useState([]);
-    const [fileStatus, setFileStatus] = useState(FileStatusTypes.IDLE);
+    const [files, setFiles] = useState<FileList | null>(null);
+    const [fileStatus, setFileStatus] = useState<FileStatusTypes>(FileStatusTypes.IDLE);
 
     // For determining drag-and-drop functionality
-    const [dragActive, setDragActive] = useState(false);
+    const [dragActive, setDragActive] = useState<boolean>(false);
     const fileUploadRef = useRef<HTMLLabelElement>(null);
 
     // Handles whenever drag-event happens
-    const handleDrag = function(e: any) {
+    const handleDrag = function(e: DragEvent): void {
         e.preventDefault();
         e.stopPropagation();
 
@@ -31,7 +31,7 @@ export default function FileUpload() {
     }
 
     // User drops file into box
-    const handleDrop = function(e: any) {
+    const handleDrop = function(e: DragEvent): void {
         e.preventDefault();
         e.stopPropagation();
 
@@ -43,7 +43,7 @@ export default function FileUpload() {
     }
 
     // User clicks on the form to manually upload a file
-    const handleManualUpload = function(e: any) {
+    const handleManualUpload = function(e: ChangeEvent<HTMLInputElement>): void {
         e.preventDefault();
 
         // We have the file
@@ -52,19 +52,22 @@ export default function FileUpload() {
     }
 
     // User clicks on the button to manually upload a file
-    const handleClick = () => {
+    const handleClick = (): void => {
         if (fileUploadRef && fileUploadRef.current)
             fileUploadRef.current.click();
     }
 
+    // Processes <files> to be fed into PrivateGPT
     // Uses OCR to turn these PDFs into .txt files
-    // Runs <pdf2text.py> on a Flask webserver
-    const processFiles = async function() {
+    // Feeds the resulting .txt files into PrivateGPT
+    const processFiles = async function(): Promise<void> {
+        // Put <files> into a form that can be sent over a POST request
         let formData = new FormData();
-        Object.values(files).forEach(file => {
+        Object.values(files!).forEach(file => {
             formData.append('file', file);
         });
 
+        // Hit Flask route
         try {
             setFileStatus(FileStatusTypes.PROCESSING);
             const response = await axios.post('http://localhost:5000/processFiles',
@@ -74,7 +77,6 @@ export default function FileUpload() {
                     }
                 });
             setFileStatus(FileStatusTypes.IDLE);
-
             console.log(response.data);
         }
         catch(error) {
@@ -101,8 +103,11 @@ export default function FileUpload() {
             </form>
 
             {/* Display 'Process File(s)' button or status of files */}
-            { fileStatus === FileStatusTypes.IDLE && <button className='button' onClick={processFiles}>Process file(s)</button> }
-            { fileStatus !== FileStatusTypes.IDLE && <p>{ fileStatus }</p> }
+            { fileStatus === FileStatusTypes.IDLE ?
+                <button className='button' onClick={processFiles}>Process file(s)</button>
+            : 
+                <p>{fileStatus}</p>
+            }
         </div>
     );
 }
