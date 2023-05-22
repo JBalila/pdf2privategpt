@@ -21,7 +21,7 @@ export default function FileUpload() {
     const fileUploadRef = useRef<HTMLLabelElement>(null);
 
     // Handles whenever drag-event happens
-    const handleDrag = function(e: DragEvent): void {
+    const handleDrag = function(e: DragEvent) {
         e.preventDefault();
         e.stopPropagation();
 
@@ -32,7 +32,7 @@ export default function FileUpload() {
     }
 
     // User drops file into box
-    const handleDrop = function(e: DragEvent): void {
+    const handleDrop = function(e: DragEvent) {
         e.preventDefault();
         e.stopPropagation();
 
@@ -46,7 +46,7 @@ export default function FileUpload() {
     }
 
     // User clicks on the form to manually upload a file
-    const handleManualUpload = function(e: ChangeEvent<HTMLInputElement>): void {
+    const handleManualUpload = function(e: ChangeEvent<HTMLInputElement>) {
         e.preventDefault();
 
         // We have the file
@@ -57,7 +57,7 @@ export default function FileUpload() {
     }
 
     // User clicks on the button to manually upload a file
-    const handleClick = (): void => {
+    const handleClick = () => {
         if (fileUploadRef && fileUploadRef.current)
             fileUploadRef.current.click();
     }
@@ -65,7 +65,7 @@ export default function FileUpload() {
     // Processes <files> to be fed into PrivateGPT
     // Uses OCR to turn these PDFs into .txt files
     // Feeds the resulting .txt files into PrivateGPT
-    const processFiles = async function(): Promise<void> {
+    const processFiles = async function() {
         // Prevent accessing <files> if it hasn't been set yet
         if (files === null) {
             setFileStatusMessage('No files selected');
