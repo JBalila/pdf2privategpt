@@ -126,17 +126,10 @@ def txt2gpt() -> str:
     txtList = os.listdir(TXT_FOLDER)
 
     # Run <ingest.py> on each .txt file in <txtList>
-    for txt in txtList:
-        # Somehow got a non-.txt file in 'TXT_Folder/'
-        if os.path.splitext(txt)[1] != '.txt':
-            print('Error: This should not have been saved in the first place')
-            os.remove(os.path.join(TXT_FOLDER, txt))
-            continue
-        
-        # Feed to <ingest.py>
-        feedToGPT(txt)
+    feedToGPT(TXT_FOLDER)
 
-        # Remove from 'TXT_Folder/'
+    # Remove files from 'TXT_Folder/'
+    for txt in txtList:
         os.remove(os.path.join(TXT_FOLDER, txt))
 
     return 'Finished feeding files to PrivateGPT'
