@@ -146,4 +146,7 @@ def askgpt() -> str:
     query = request.get_json()
     queryResponse = askQuery(query)
 
+    if queryResponse is None:
+        return 'An unexpected error has occurred'
+
     return queryResponse

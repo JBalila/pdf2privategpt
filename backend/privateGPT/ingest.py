@@ -92,7 +92,7 @@ def load_documents(source_dir: str, ignored_files: List[str] = []) -> List[Docum
         )
     filtered_files = [file_path for file_path in all_files if file_path not in ignored_files]
 
-    with Pool(processes=os.cpu_count()) as pool:
+    with Pool(processes=os.cpu_count()//2) as pool:
         results = []
         with tqdm(total=len(filtered_files), desc='Loading new documents', ncols=80) as pbar:
             for i, doc in enumerate(pool.imap_unordered(load_single_document, filtered_files)):

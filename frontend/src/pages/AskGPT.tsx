@@ -14,9 +14,8 @@ export default function AskGPT() {
         // Store <query> as JSON payload
         const jsonPayload = JSON.stringify(query);
 
-        // Reset <query> and <queryResponse>
+        // Reset <query>
         setQuery('');
-        setQueryResponse('');
 
         // Hit Flask backend
         try {
@@ -27,7 +26,7 @@ export default function AskGPT() {
                     }
                 });
 
-            setQueryResponse(response.data);
+            setQueryResponse(queryResponse + response.data);
         }
         catch(error) {
             console.log(error);

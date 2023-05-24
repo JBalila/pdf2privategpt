@@ -20,16 +20,21 @@ def pix2np(pix):
 
 # Loops through the captured text of an image and arranges this text line by line
 # This function depends on the image layout
-def generate_ss_text(ss_details):
+def generate_ss_text(ss_details, min_confidence):
     # Arrange the captured text after scanning the page
     parse_text = []
     word_list = []
     last_word = ''
 
     # Loop through the captured text of the entire page
-    for word in ss_details['text']:
+    for seq in range(len(ss_details['text'])):
+        word = ss_details['text'][seq]
         # If the word captured is not empty
         if word != '':
+            # Only consider words with a confidence score of at least <min_confidence>
+            if float(ss_details['conf'][seq]) <= min_confidence:
+                continue
+                
             # Add it to the line word list
             word_list.append(word)
             last_word = word

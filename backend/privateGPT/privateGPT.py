@@ -34,7 +34,7 @@ def askQuery(query: str) -> str:
         llm = GPT4All(model=model_path, n_ctx=model_n_ctx, backend='gptj', callbacks=callbacks, verbose=False)
     else:
         print(f"Model {model_type} not supported!")
-        exit
+        return None
     qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever, return_source_documents=True)
     
     # Get the answer from the chain
@@ -48,5 +48,6 @@ def askQuery(query: str) -> str:
     # Append the relevant sources used for the answer
     for document in docs:
         queryResponse += ('\n: ' + document.page_content)
+    queryResponse += '\n\n'
 
     return queryResponse

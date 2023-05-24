@@ -5,7 +5,7 @@ from multiprocessing import Pool
 import time
 import os
 
-NUM_PROCESSES = os.cpu_count()
+NUM_PROCESSES = os.cpu_count() // 2
 PDF_FOLDER = os.path.join('PDF_Folder')
 TXT_FOLDER = os.path.join('TXT_Folder')
 
@@ -34,10 +34,10 @@ def ocr_img(img: np.array, inputFile: str):
     # Feeding image to tesseract
     details = pytesseract.image_to_data(bin_img, output_type=Output.DICT, config=config_param, lang='eng')
  
-    # Generates the text content of the image
+    # Generates the text content of the image with at least 40.0 confidence
     output_data = None
     if details:
-        output_data = generate_ss_text(details)
+        output_data = generate_ss_text(details, 40.0)
     
     # This means the image was passed directly as a parameter
     # Textify this and save it to 'TXT_Folder/'
@@ -131,6 +131,7 @@ def ocr_file(inputFile: str):
         # End pool workers
         pool.close()
         pool.join()
+    print('Done converting pages...')
 
     # Sort <pageResults> by <pg_num>
     pageResults.sort(key=lambda x: x[0])
