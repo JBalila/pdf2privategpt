@@ -3,13 +3,10 @@ export default function Navbar({page}: {page: string}) {
         <div id='navbar-wrapper'>
             <div className='flex-container-row'>
                 <div className='left-side'>
-                    <a id={page === 'Home' ? 'active' : ''} className='nav-element' href='/'>
-                        <p>Home</p>
-                    </a>
                 </div>
 
                 <div className='right-side'>
-                    <a id={page === 'FileUpload' ? 'active' : ''} className='nav-element' href='/uploadfiles'>
+                    <a id={page === 'FileUpload' ? 'active' : ''} className='nav-element' href='/'>
                         <p>Upload Files</p>
                     </a>
                     
