@@ -47,8 +47,11 @@ def formatIntoReturnString(messages: [str]) -> str:
 @app.route('/processFiles', methods=['POST'])
 def processFiles() -> str:
     uploadFileRes = uploadFiles()
+    print('Done uploading files...')
     pdf2txtRes = pdf2txt()
+    print('Done converting files to .txt...')
     txt2gptRes = txt2gpt()
+    print('Done feeding files to PrivateGPT...')
     return 'Done processing files'
 
 # Uploads PDF/Image files to PDF_Folder

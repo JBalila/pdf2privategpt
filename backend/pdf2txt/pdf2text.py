@@ -3,8 +3,9 @@ from imagePreprocessing import *
 from imageProcessing import *
 from multiprocessing import Pool
 import time
+import os
 
-NUM_PROCESSES = 4
+NUM_PROCESSES = os.cpu_count()
 PDF_FOLDER = os.path.join('PDF_Folder')
 TXT_FOLDER = os.path.join('TXT_Folder')
 
@@ -124,7 +125,12 @@ def ocr_file(inputFile: str):
     # pageResults[0] -> <pg_num>
     # pageResults[1] -> <pg_output_data>
     with Pool(NUM_PROCESSES) as pool:
+        # Use multiprocessing to speed up .txt conversion
         pageResults = pool.starmap(convertPage, pageInfo)
+
+        # End pool workers
+        pool.close()
+        pool.join()
 
     # Sort <pageResults> by <pg_num>
     pageResults.sort(key=lambda x: x[0])

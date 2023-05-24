@@ -30,6 +30,7 @@ load_dotenv()
 
 
 # Load environment variables
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
 persist_directory = os.environ.get('PERSIST_DIRECTORY')
 embeddings_model_name = os.environ.get('EMBEDDINGS_MODEL_NAME')
 chunk_size = 500
@@ -97,6 +98,10 @@ def load_documents(source_dir: str, ignored_files: List[str] = []) -> List[Docum
             for i, doc in enumerate(pool.imap_unordered(load_single_document, filtered_files)):
                 results.append(doc)
                 pbar.update()
+        
+        # End pool workers
+        pool.close()
+        pool.join()
 
     return results
 
@@ -106,7 +111,7 @@ def process_documents(source_directory: str, ignored_files: List[str] = []) -> L
     documents = load_documents(source_directory, ignored_files)
     if not documents:
         print("No new documents to load")
-        exit(0)
+        return None
     print(f"Loaded {len(documents)} new documents from {source_directory}")
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
     texts = text_splitter.split_documents(documents)
@@ -134,12 +139,18 @@ def feedToGPT(source_directory: str):
         db = Chroma(persist_directory=persist_directory, embedding_function=embeddings, client_settings=CHROMA_SETTINGS)
         collection = db.get()
         texts = process_documents(source_directory, [metadata['source'] for metadata in collection['metadatas']])
+        if texts is None:
+            print(f"No new documents to add, exiting...")
+            return
         print(f"Creating embeddings. May take some minutes...")
         db.add_documents(texts)
     else:
         # Create and store locally vectorstore
         print("Creating new vectorstore")
         texts = process_documents(source_directory)
+        if texts is None:
+            print(f"No new documents to add, exiting...")
+            return
         print(f"Creating embeddings. May take some minutes...")
         db = Chroma.from_documents(texts, embeddings, persist_directory=persist_directory, client_settings=CHROMA_SETTINGS)
     db.persist()
