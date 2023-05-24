@@ -4,6 +4,7 @@ import axios from 'axios';
 
 // Component imports
 import Navbar from '../components/Navbar';
+import { buildPath } from '../components/BuildPath';
 
 enum FileStatusTypes {
     IDLE = 'Idle',
@@ -83,7 +84,7 @@ export default function FileUpload() {
         // Hit Flask route
         try {
             setFileStatus(FileStatusTypes.PROCESSING);
-            const response = await axios.post('http://localhost:5000/processFiles',
+            const response = await axios.post(buildPath('processFiles'),
                 formData, {
                     headers: {
                         "Content-type": "multipart/form-data"

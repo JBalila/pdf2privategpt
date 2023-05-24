@@ -44,7 +44,7 @@ def formatIntoReturnString(messages: [str]) -> str:
     return returnMessage
 
 # Full pipeline from uploading PDF file -> converting to .txt -> feeding to PrivateGPT
-@app.route('/processFiles', methods=['POST'])
+@app.route('/api/processFiles', methods=['POST'])
 def processFiles() -> str:
     uploadFileRes = uploadFiles()
     print('Done uploading files...')
@@ -55,7 +55,7 @@ def processFiles() -> str:
     return 'Done processing files'
 
 # Uploads PDF/Image files to PDF_Folder
-@app.route('/upload', methods=['POST'])
+@app.route('/api/upload', methods=['POST'])
 def uploadFiles() -> str:
     # User didn't use POST method (somehow)
     if request.method != 'POST':
@@ -98,7 +98,7 @@ def uploadFiles() -> str:
 
 # Runs <pdf2txt.py> on 'PDF_Folder/' and outputs resulting .txt files into 'TXT_Folder/'
 # Deletes the converted PDF files from 'PDF_Folder/'
-@app.route('/pdf2txt', methods=['POST'])
+@app.route('/api/pdf2txt', methods=['POST'])
 def pdf2txt() -> str:
     # Get list of files in 'PDF_Folder/'
     pdfList = os.listdir(PDF_FOLDER)
@@ -123,7 +123,7 @@ def pdf2txt() -> str:
 
 # Runs <ingest.py> on 'TXT_Folder/', feeding the text files into PrivateGPT
 # Deletes the ingested .txt files from 'TXT_Folder/'
-@app.route('/txt2gpt', methods=['POST'])
+@app.route('/api/txt2gpt', methods=['POST'])
 def txt2gpt() -> str:
     # Get list of files in 'TXT_Folder/'
     txtList = os.listdir(TXT_FOLDER)
@@ -137,7 +137,7 @@ def txt2gpt() -> str:
 
     return 'Finished feeding files to PrivateGPT'
 
-@app.route('/askgpt', methods=['POST'])
+@app.route('/api/askgpt', methods=['POST'])
 def askgpt() -> str:
     # User didn't use POST method (somehow)
     if request.method != 'POST':

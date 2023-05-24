@@ -46,8 +46,8 @@ def askQuery(query: str) -> str:
     queryResponse += answer
 
     # Append the relevant sources used for the answer
-    for document in docs:
-        queryResponse += ('\n: ' + document.page_content)
-    queryResponse += '\n\n'
+    for source in range(len(docs)):
+        document = docs[source]
+        queryResponse += ('\nSource ' + str(source + 1) + ': ' + document.page_content)
 
     return queryResponse
