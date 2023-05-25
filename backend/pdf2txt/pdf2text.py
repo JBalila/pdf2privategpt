@@ -34,10 +34,10 @@ def ocr_img(img: np.array, inputFile: str):
     # Feeding image to tesseract
     details = pytesseract.image_to_data(bin_img, output_type=Output.DICT, config=config_param, lang='eng')
  
-    # Generates the text content of the image with at least 40.0 confidence
+    # Generates the text content of the image with at least 60.0 confidence
     output_data = None
     if details:
-        output_data = generate_ss_text(details, 40.0)
+        output_data = generate_ss_text(details, 60.0)
     
     # This means the image was passed directly as a parameter
     # Textify this and save it to 'TXT_Folder/'
@@ -57,7 +57,7 @@ def ocr_img(img: np.array, inputFile: str):
         with open(outputPath, 'w') as textFile:
             textFile.write(outputText)
         
-    # Return summary of image-processing and output-data
+    # Return output-data
     return output_data
 
 # Converts an image into a byte array
