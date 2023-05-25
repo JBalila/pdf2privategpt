@@ -42,7 +42,7 @@ def ocr_img(img: np.array, inputFile: str):
     # This means the image was passed directly as a parameter
     # Textify this and save it to 'TXT_Folder/'
     if inputFile:
-        outputFile = os.path.splitext(inputFile)[0] + '_(textified).txt'
+        outputFile = os.path.splitext(inputFile)[0] + '.txt'
         outputPath = os.path.join(TXT_FOLDER, outputFile)
 
         # Save string data in <outputText>
@@ -116,7 +116,7 @@ def ocr_file(inputFile: str):
     pdfIn = fitz.open(inputPath)
 
     # Set default save location
-    outputFile = os.path.splitext(inputFile)[0] + '_(textified).txt'
+    outputFile = os.path.splitext(inputFile)[0] + '.txt'
     outputPath = os.path.join(TXT_FOLDER, outputFile)
 
     # Get list of page numbers to iterate through

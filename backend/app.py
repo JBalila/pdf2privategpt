@@ -2,6 +2,7 @@
 import os
 import sys
 import typing
+from dotenv import load_dotenv
 from flask import Flask, request
 from werkzeug.utils import secure_filename
 from flask_cors import CORS #comment this on deployment
@@ -13,15 +14,19 @@ sys.path.append('privateGPT')
 from ingest import feedToGPT
 from privateGPT import askQuery
 
-NUM_PROCESSES = 4
+load_dotenv()
+
+# Constant declarations
+SECRET_KEY = os.getenv('FLASK_APP_SECRET_KEY')
 PDF_FOLDER = os.path.join(os.getcwd(), 'PDF_Folder')
-PDF2TXT_FOLDER = os.path.join(os.getcwd(), 'pdf2txt')
 TXT_FOLDER = os.path.join(os.getcwd(), 'TXT_Folder')
+PDF2TXT_FOLDER = os.path.join(os.getcwd(), 'pdf2txt')
 ALLOWED_EXTENSIONS = {'pdf', 'jpg', 'jpeg', 'png'}
 MEGABYTE = 1024 * 1024
 
+# Set Flask app to run
 app = Flask(__name__)
-app.secret_key = "jiodasjfidsahnifpokndkalsfnddsahfuihdas"
+app.secret_key = SECRET_KEY
 CORS(app) #comment this on deployment
 
 # Set settings for file-uploads
@@ -115,7 +120,7 @@ def pdf2txt() -> str:
         # Convert to .txt file
         pdf2text(pdf)
 
-    # Remove from 'PDF_Folder/'
+    # Remove files from 'PDF_Folder/'
     for pdf in pdfList:
         os.remove(os.path.join(PDF_FOLDER, pdf))
 
@@ -137,6 +142,7 @@ def txt2gpt() -> str:
 
     return 'Finished feeding files to PrivateGPT'
 
+# Runs <privateGPT.py> to query the LLM using the info stored in 'db/'
 @app.route('/api/askgpt', methods=['POST'])
 def askgpt() -> str:
     # User didn't use POST method (somehow)
