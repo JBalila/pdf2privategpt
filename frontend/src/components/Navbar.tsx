@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export default function Navbar({page}: {page: string}) {
     return(
         <div id='navbar-wrapper'>
@@ -6,13 +8,12 @@ export default function Navbar({page}: {page: string}) {
                 </div>
 
                 <div className='right-side'>
-                    <a id={page === 'FileUpload' ? 'active' : ''} className='nav-element' href='/'>
-                        <p>Upload Files</p>
-                    </a>
-                    
-                    <a id={page === 'AskGPT' ? 'active' : ''} className='nav-element' href='/askgpt'>
-                        <p>Ask GPT</p>
-                    </a>
+                    <Link id={page === 'FileUpload' ? 'active' : ''} className='nav-element' to='/'>
+                        Upload Files
+                    </Link>  
+                    <Link id={page === 'AskGPT' ? 'active' : ''} className='nav-element' to='/askgpt'>
+                        Ask GPT
+                    </Link>
                 </div>
             </div>
         </div>
