@@ -5,7 +5,7 @@ import axios from 'axios';
 // Component imports
 import Navbar from '../components/Navbar';
 import QueryResponse from '../components/QueryResponse';
-import { buildPath } from '../components/BuildPath';
+import { buildPath } from '../functions/BuildPath';
 
 enum QueryStatusTypes {
     IDLE = 'Idle',

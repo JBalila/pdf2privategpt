@@ -4,7 +4,7 @@ import axios from 'axios';
 
 // Component imports
 import Navbar from '../components/Navbar';
-import { buildPath } from '../components/BuildPath';
+import { buildPath } from '../functions/BuildPath';
 
 enum FileStatusTypes {
     IDLE = 'Idle',

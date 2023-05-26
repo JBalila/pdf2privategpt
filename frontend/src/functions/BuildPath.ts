@@ -1,4 +1,4 @@
-const siteURL = '';
+const siteURL = 'http://localhost:5000/api/';
 
 // Expects <route> to be without a leading '/' character
 // Returns the API route depending on whether app is on localhost or production
