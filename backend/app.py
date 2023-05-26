@@ -130,8 +130,12 @@ def pdf2txt() -> str:
 # Deletes the ingested .txt files from 'TXT_Folder/'
 @app.route('/api/txt2gpt', methods=['POST'])
 def txt2gpt() -> str:
-    # Get list of files in 'TXT_Folder/'
+    # Get list of files in 'TXT_FOLDER/'
     txtList = os.listdir(TXT_FOLDER)
+
+    # No files in 'TXT_FOLDER/', return
+    if len(txtList) == 0:
+        return 'No files to feed'
 
     # Run <ingest.py> on each .txt file in <txtList>
     feedToGPT(TXT_FOLDER)
